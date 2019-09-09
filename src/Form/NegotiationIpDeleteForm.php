@@ -73,7 +73,7 @@ class NegotiationIpDeleteForm extends ConfirmFormBase {
 
     $this->logger('language')->notice('The country code language detection mapping for the %country_code language code has been deleted.', $args);
 
-    drupal_set_message($this->t('The mapping for the %country_code language code has been deleted.', $args));
+    $this->messenger()->addMessage($this->t('The mapping for the %country_code language code has been deleted.', $args));
 
     $form_state->setRedirect('language.negotiation_ip');
   }
