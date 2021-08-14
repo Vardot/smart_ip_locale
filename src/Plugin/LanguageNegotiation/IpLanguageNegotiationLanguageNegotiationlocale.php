@@ -28,7 +28,7 @@ class IpLanguageNegotiationLanguageNegotiationlocale extends LanguageNegotiation
    */
   public function getLangcode(Request $request = NULL) {
     $langcode = '';
-    if ($request && $this->languageManager) {
+    if ($request && isset($this->languageManager)) {
       // Disable caching for this page. This only happens when negotiating
       // based on IP. Once the redirect took place to the correct domain
       // or language prefix, this function is not reached anymore and

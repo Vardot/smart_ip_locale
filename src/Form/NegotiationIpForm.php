@@ -162,10 +162,10 @@ class NegotiationIpForm extends ConfigFormBase {
         foreach ($mappings as $key => $data) {
           // Make sure country_code is unique.
           if (array_key_exists($data['country_code'], $unique_values)) {
-            $form_state->setErrorByName('mappings][new_mapping][country_code', $this->t('Country codes must be unique.'));
+            $form_state->setErrorByName('mappings][' . $key . '][country_code', $this->t('Country codes must be unique.'));
           }
           elseif (preg_match('/[^a-z\-]/', $data['country_code'])) {
-            $form_state->setErrorByName('mappings][new_mapping][country_code', $this->t('Country codes can only contain lowercase letters and a hyphen(-).'));
+            $form_state->setErrorByName('mappings][' . $key . '][country_code', $this->t('Country codes can only contain lowercase letters and a hyphen(-).'));
           }
           $unique_values[$data['country_code']] = $data['drupal_langcode'];
         }
@@ -173,16 +173,16 @@ class NegotiationIpForm extends ConfigFormBase {
     }
 
     // Check new mapping.
-    $data = $form_state->getValue('new_mapping');
-    if (!empty($data['country_code'])) {
+    $new_data = $form_state->getValue('new_mapping');
+    if (!empty($new_data['country_code'])) {
       // Make sure country_code is unique.
-      if (array_key_exists($data['country_code'], $unique_values)) {
-        $form_state->setErrorByName('mappings][' . $key . '][country_code', $this->t('Country codes must be unique.'));
+      if (array_key_exists($new_data['country_code'], $unique_values)) {
+        $form_state->setErrorByName('mappings][' . $new_data['country_code'] . '][country_code', $this->t('Country codes must be unique.'));
       }
-      elseif (preg_match('/[^a-z\-]/', $data['country_code'])) {
-        $form_state->setErrorByName('mappings][' . $key . '][country_code', $this->t('Country codes can only contain lowercase letters and a hyphen(-).'));
+      elseif (preg_match('/[^a-z\-]/', $new_data['country_code'])) {
+        $form_state->setErrorByName('mappings][' . $new_data['country_code'] . '][country_code', $this->t('Country codes can only contain lowercase letters and a hyphen(-).'));
       }
-      $unique_values[$data['country_code']] = $data['drupal_langcode'];
+      $unique_values[$new_data['country_code']] = $new_data['drupal_langcode'];
     }
 
     $form_state->set('mappings', $unique_values);
