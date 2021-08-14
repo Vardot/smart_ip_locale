@@ -1,0 +1,22 @@
+{
+  "name": "smart_ip_locale",
+  "description": "Redirect users to site version based on IP address",
+  "license": "GPL-2.0",
+  "private": true,
+  "engines": {
+    "yarn": ">= 1.6",
+    "node": ">= 8.11"
+  },
+  "keywords": [
+    "Drupal",
+    "Varbase",
+    "commerce"
+  ],
+  "author": "Vardot",
+  "scripts": {
+    "phpcs": "phpcs --standard=./.phpcs.xml .",
+    "phpcbf": "phpcbf --standard=./.phpcs.xml ."
+  },
+  "dependencies": {  },
+  "devDependencies": {  }
+}

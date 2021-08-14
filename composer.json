@@ -20,22 +20,9 @@
     "drupal": {
       "type": "composer",
       "url": "https://packages.drupal.org/8"
-    },
-    "assets": {
-      "type": "composer",
-      "url": "https://asset-packagist.org"
     }
   },
   "require": {
     "drupal/smart_ip": "~3.0 || ~4.0"
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-8.x-6.x": "8.6.x-dev"
-    },
-    "installer-types": [
-      "bower-asset",
-      "npm-asset"
-    ]
   }
 }
