@@ -91,35 +91,37 @@ class NegotiationIpForm extends ConfigFormBase {
     ];
 
     $mappings = $this->languageGetSmartIpLangcodeMappings();
-    foreach ($mappings as $country_code => $drupal_langcode) {
-      $form['mappings'][$country_code] = [
-        'country_code' => [
-          '#title' => $this->t('Country code'),
-          '#title_display' => 'invisible',
-          '#type' => 'textfield',
-          '#default_value' => $country_code,
-          '#size' => 20,
-          '#required' => TRUE,
-        ],
-        'drupal_langcode' => [
-          '#title' => $this->t('Site language'),
-          '#title_display' => 'invisible',
-          '#type' => 'select',
-          '#options' => $language_options,
-          '#default_value' => $drupal_langcode,
-          '#required' => TRUE,
-        ],
-      ];
-      // Operations column.
-      $form['mappings'][$country_code]['operations'] = [
-        '#type' => 'operations',
-        '#links' => [],
-      ];
+    if (is_array($mappings) && count($mappings) > 0) {
+      foreach ($mappings as $country_code => $drupal_langcode) {
+        $form['mappings'][$country_code] = [
+          'country_code' => [
+            '#title' => $this->t('Country code'),
+            '#title_display' => 'invisible',
+            '#type' => 'textfield',
+            '#default_value' => $country_code,
+            '#size' => 20,
+            '#required' => TRUE,
+          ],
+          'drupal_langcode' => [
+            '#title' => $this->t('Site language'),
+            '#title_display' => 'invisible',
+            '#type' => 'select',
+            '#options' => $language_options,
+            '#default_value' => $drupal_langcode,
+            '#required' => TRUE,
+          ],
+        ];
+        // Operations column.
+        $form['mappings'][$country_code]['operations'] = [
+          '#type' => 'operations',
+          '#links' => [],
+        ];
 
-      $form['mappings'][$country_code]['operations']['#links']['delete'] = [
-        'title' => $this->t('Delete'),
-        'url' => Url::fromRoute('language.negotiation_ip_delete', ['country_code' => $country_code]),
-      ];
+        $form['mappings'][$country_code]['operations']['#links']['delete'] = [
+          'title' => $this->t('Delete'),
+          'url' => Url::fromRoute('language.negotiation_ip_delete', ['country_code' => $country_code]),
+        ];
+      }
     }
 
     // Add empty row.
@@ -148,24 +150,25 @@ class NegotiationIpForm extends ConfigFormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     // Array to check if all browser language codes are unique.
     $unique_values = [];
+    $mappings = [];
 
     // Check all mappings.
     if ($form_state->hasValue('mappings')) {
       if ($form_state->getValue('mappings')) {
         $mappings = $form_state->getValue('mappings');
       }
-      else {
-        $mappings = [];
-      }
-      foreach ($mappings as $key => $data) {
-        // Make sure country_code is unique.
-        if (array_key_exists($data['country_code'], $unique_values)) {
-          $form_state->setErrorByName('mappings][new_mapping][country_code', $this->t('Country codes must be unique.'));
+
+      if (is_array($mappings) && count($mappings) > 0) {
+        foreach ($mappings as $key => $data) {
+          // Make sure country_code is unique.
+          if (array_key_exists($data['country_code'], $unique_values)) {
+            $form_state->setErrorByName('mappings][new_mapping][country_code', $this->t('Country codes must be unique.'));
+          }
+          elseif (preg_match('/[^a-z\-]/', $data['country_code'])) {
+            $form_state->setErrorByName('mappings][new_mapping][country_code', $this->t('Country codes can only contain lowercase letters and a hyphen(-).'));
+          }
+          $unique_values[$data['country_code']] = $data['drupal_langcode'];
         }
-        elseif (preg_match('/[^a-z\-]/', $data['country_code'])) {
-          $form_state->setErrorByName('mappings][new_mapping][country_code', $this->t('Country codes can only contain lowercase letters and a hyphen(-).'));
-        }
-        $unique_values[$data['country_code']] = $data['drupal_langcode'];
       }
     }
 
