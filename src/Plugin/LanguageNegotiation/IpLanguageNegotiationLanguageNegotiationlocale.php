@@ -35,7 +35,6 @@ class IpLanguageNegotiationLanguageNegotiationlocale extends LanguageNegotiation
       // caching works as expected.
       \Drupal::service('page_cache_kill_switch')->trigger();
 
-      $languages = $this->languageManager->getLanguages();
       $countries = \Drupal::config('smart_ip_locale.mappings')->get('map') ?: [];
       $location = \Drupal::service('smart_ip.smart_ip_location');
       $current_country_code = strtolower($location->get('countryCode'));
