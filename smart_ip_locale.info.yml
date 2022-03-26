@@ -1,6 +1,6 @@
-name: 'Smart IP - Language Negotiation Redirect'
+name: "Smart IP - Language Negotiation Redirect"
 type: module
-description: 'Redirect users to site version based on IP address'
+description: "Redirect users to site version based on IP address"
 core_version_requirement: ^8 || ^9
 package: Other
 dependencies:
