@@ -24,6 +24,6 @@
   },
   "require": {
     "drupal/core": "^9 || ^10",
-    "drupal/smart_ip": "~3.0 || ~4.0"
+    "drupal/smart_ip": "^3 || ^4"
   }
 }
