@@ -37,9 +37,10 @@ class IpLanguageNegotiationLanguageNegotiationlocale extends LanguageNegotiation
 
       $countries = \Drupal::config('smart_ip_locale.mappings')->get('map') ?: [];
       $location = \Drupal::service('smart_ip.smart_ip_location');
-      $current_country_code = strtolower($location->get('countryCode'));
+      $current_country_code = $location->get('countryCode');
 
       if (!empty($current_country_code)) {
+        $current_country_code = strtolower($current_country_code);
         // Check if a language is set for the determined country.
         if (!empty($countries[$current_country_code])) {
           $langcode = $countries[$current_country_code];
